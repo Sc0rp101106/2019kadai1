@@ -191,14 +191,19 @@ public class command {
     public static void buyTotalDisplay() {
         int total_tmp = 0;
         for (Items item : buyItemList) {
-            if (item.getBuysize() == 0) {
-                total_tmp += item.getPricet() * item.getBuynum();
-            } else if (item.getBuysize() == 1) {
-                total_tmp += item.getSpricet() * item.getBuynum();
-            } else if (item.getBuysize() == 2) {
-                total_tmp += item.getMpricet() * item.getBuynum();
-            } else if (item.getBuysize() == 3) {
-                total_tmp += item.getLpricet() * item.getBuynum();
+            switch (item.getBuysize()) {
+                case 0:
+                    total_tmp += item.getPricet() * item.getBuynum();
+                    break;
+                case 1:
+                    total_tmp += item.getSpricet() * item.getBuynum();
+                    break;
+                case 2:
+                    total_tmp += item.getMpricet() * item.getBuynum();
+                    break;
+                case 3:
+                    total_tmp += item.getLpricet() * item.getBuynum();
+                    break;
             }
         }
         System.out.println("合計金額は、" + total_tmp + "円です。");
