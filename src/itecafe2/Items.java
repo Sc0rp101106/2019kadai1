@@ -16,9 +16,10 @@ public class Items {
     private int mpricet;
     private int lpricet;
     private boolean itemtype;
-    private final double tax = 1.08;
+    private final double tax = 1.08;//消費税
     private int sizenum; //サイズの種類の数
-    private int buynum;
+    private int buynum;//購入個数
+    private int buysize;//0.基本 1.S 2.M 3.L
     static ArrayList<Items> itemList = new ArrayList<>();
     static ArrayList<Items> buyItemList = new ArrayList<>();
 
@@ -30,6 +31,7 @@ public class Items {
         this.itemtype = itemtype;
         this.pricet = (int) (price * tax);
         this.buynum = 0;
+        this.buysize = 0;
         itemList.add(this);
     }
 
@@ -46,6 +48,7 @@ public class Items {
         this.itemtype = itemtype;
         this.sizenum = 2;
         this.buynum = 0;
+        this.buysize = 0;
         itemList.add(this);
     }
 
@@ -64,6 +67,7 @@ public class Items {
         this.itemtype = itemtype;
         this.sizenum = 3;
         this.buynum = 0;
+        this.buysize = 0;
         itemList.add(this);
     }
 
@@ -155,4 +159,12 @@ public class Items {
         this.buynum = buynum;
     }
 
+    public int getBuysize() {
+        return buysize;
+    }
+
+    public void setBuysize(int buysize) {
+        this.buysize = buysize;
+    }
+    
 }

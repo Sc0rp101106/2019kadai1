@@ -109,10 +109,14 @@ public class command {
                         case "S":
                         case "s":
                             System.out.println(itemList.get(num - 1).getName() + "Sサイズ値段は、" + (itemList.get(num - 1)).getSprice() + "円です。");
+                            itemList.get(num - 1).setBuysize(1);
+                            buyItemNum(num);
                             break OUTER;
                         case "M":
                         case "m":
                             System.out.println(itemList.get(num - 1).getName() + "Mサイズ値段は、" + (itemList.get(num - 1)).getMprice() + "円です。");
+                            itemList.get(num - 1).setBuysize(2);
+                            buyItemNum(num);
                             break OUTER;
                         default:
                             System.out.println("SかMの文字を入力してください");
@@ -127,14 +131,20 @@ public class command {
                         case "S":
                         case "s":
                             System.out.println(itemList.get(num - 1).getName() + "Sサイズ値段は、" + (itemList.get(num - 1)).getSprice() + "円です。");
+                            itemList.get(num - 1).setBuysize(1);
+                            buyItemNum(num);
                             break OUTER;
                         case "M":
                         case "m":
                             System.out.println(itemList.get(num - 1).getName() + "Mサイズ値段は、" + (itemList.get(num - 1)).getMprice() + "円です。");
+                            itemList.get(num - 1).setBuysize(2);
+                            buyItemNum(num);
                             break OUTER;
                         case "L":
                         case "l":
                             System.out.println(itemList.get(num - 1).getName() + "Lサイズ値段は、" + (itemList.get(num - 1)).getLprice() + "円です。");
+                            itemList.get(num - 1).setBuysize(3);
+                            buyItemNum(num);
                             break OUTER;
                         default:
                             System.out.println("SかMかLの文字を入力してください");
@@ -148,6 +158,7 @@ public class command {
             buyItemNum(num);
         }
     }
+
     public static void buyItemNum(int num) {
         int outBuyNum;
         while (true) {
@@ -167,11 +178,47 @@ public class command {
                 }
                 itemList.get(num - 1).setBuynum(outBuyNum);
                 buyItemList.add(itemList.get(num - 1));
+                buyTotalDisplay();
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("[Error]:数字を入力してください");
             } catch (ArrayIndexOutOfBoundsException e) {
                 System.out.println("[Error]:正しい数字を入力してください");
+            }
+        }
+    }
+
+    public static void buyTotalDisplay() {
+        int total_tmp = 0;
+        for (Items item : buyItemList) {
+            if (item.getBuysize() == 0) {
+                total_tmp += item.getPricet() * item.getBuynum();
+            } else if (item.getBuysize() == 1) {
+                total_tmp += item.getSpricet() * item.getBuynum();
+            } else if (item.getBuysize() == 2) {
+                total_tmp += item.getMpricet() * item.getBuynum();
+            } else if (item.getBuysize() == 3) {
+                total_tmp += item.getLpricet() * item.getBuynum();
+            }
+        }
+        System.out.println("合計金額は、" + total_tmp + "円です。");
+        ITEMCORRECT:
+        while (true) {
+            System.out.print("まだ購入を続けますか？(y or n)：");
+            Scanner scan = new Scanner(System.in);
+            String enable = scan.next();
+            switch (enable) {
+                case "y":
+                case "Y":
+                    order();
+                    break ITEMCORRECT;
+                case "n":
+                case "N":
+                    select_Payments(total_tmp);
+                    break ITEMCORRECT;
+                default:
+                    System.out.println("yまたはnの文字を入力してください");
+                    break;
             }
         }
     }
