@@ -54,7 +54,15 @@ public class command {
                 Scanner scan = new Scanner(System.in);
                 String num = scan.next();
                 outNum = Integer.parseInt(num);
+                boolean already_enable;
                 while (true) {
+                    for (Items item : buyItemList) {
+                        if (outNum == item.getNo()) {
+                            System.out.print("すでに購入リストに存在しています：");
+                            num = scan.next();
+                            outNum = Integer.parseInt(num);
+                        }
+                    }
                     if (outNum <= 0 || outNum >= 15) {
                         System.out.print("1から14までの数字で入力してください：");
                         num = scan.next();
@@ -188,6 +196,27 @@ public class command {
         }
     }
 
+    public static void buyListPrint() {
+        System.out.println("■■■購入リスト■■■");
+        for (Items item : buyItemList) {
+            switch (item.getBuysize()) {
+                case 0:
+                    System.out.println("・" + item.getName() + " - " + "金額：" + item.getPrice() + "【" + item.getPricet() + "】円 個数：" + item.getBuynum() + "個 合計：" + item.getPricet() * item.getBuynum() + "円");
+                    break;
+                case 1:
+                    System.out.println("・" + item.getName() + " - " + "金額：" + item.getSprice() + "【" + item.getSpricet() + "】円 個数：" + item.getBuynum() + "個 合計：" + item.getSpricet() * item.getBuynum() + "円");
+                    break;
+                case 2:
+                    System.out.println("・" + item.getName() + " - " + "金額：" + item.getMprice() + "【" + item.getMpricet() + "】円 個数：" + item.getBuynum() + "個 合計：" + item.getMpricet() * item.getBuynum() + "円");
+                    break;
+                case 3:
+                    System.out.println("・" + item.getName() + " - " + "金額：" + item.getLprice() + "【" + item.getLpricet() + "】円 個数：" + item.getBuynum() + "個 合計：" + item.getLpricet() * item.getBuynum() + "円");
+                    break;
+            }
+        }
+        System.out.println("■■■■■■■■■■■");
+    }
+
     public static void buyTotalDisplay() {
         int total_tmp = 0;
         for (Items item : buyItemList) {
@@ -207,24 +236,43 @@ public class command {
             }
         }
         System.out.println("合計金額は、" + total_tmp + "円です。");
+        selectMenu(total_tmp);
+    }
+
+    public static void selectMenu(int total) {
         ITEMCORRECT:
         while (true) {
-            System.out.print("まだ購入を続けますか？(y or n)：");
+            System.out.print("どうしますか？(1,購入を続ける 2,メニューを表示 3,購入リスト 4,注文終了)：");
             Scanner scan = new Scanner(System.in);
             String enable = scan.next();
-            switch (enable) {
-                case "y":
-                case "Y":
-                    order();
-                    break ITEMCORRECT;
-                case "n":
-                case "N":
-                    select_Payments(total_tmp);
-                    break ITEMCORRECT;
-                default:
-                    System.out.println("yまたはnの文字を入力してください");
-                    break;
+            int enableNum = Integer.parseInt(enable);
+            try {
+
+                switch (enableNum) {
+                    case 1:
+                        getMenu();
+                        order();
+                        break ITEMCORRECT;
+                    case 2:
+                        getMenu();
+                        break;
+                    case 3:
+                        buyListPrint();
+                        break;
+                    case 4:
+                        buy_Select(total);
+                        break ITEMCORRECT;
+                    default:
+                        System.out.println("1から4までの数字を入力してください");
+                        break;
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("[Error]:数字を入力してください");
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("[Error]:正しい数字を入力してください");
             }
+
         }
     }
 }
