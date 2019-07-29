@@ -2,6 +2,7 @@ package itecafe2;
 public class ItemsInstance {
 
     public static void itemsInstance() {
+        //ドリンク
         Items hotcoffee = new Items(1, 1, "ホットコーヒー", 280, 330, true);// no,name,price
         Items tea = new Items(2, 1, "紅茶", 260, 310, true);
         Items icecoffee = new Items(3, 1, "アイスコーヒー", 200, 250, 300, true);// no,name,price
